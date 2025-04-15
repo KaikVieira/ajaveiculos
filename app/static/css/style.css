@@ -1,0 +1,780 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", serif;
+}
+
+body {
+    background-color: black;
+    color: #fff;
+    font-size: 16px;
+    overflow: hidden;
+    overflow-y: hidden;
+
+}
+
+#openModal {
+    position: fixed;
+    top: calc(50% + 100px);
+    left: 50%;
+    transform: translate(-600%, -800%); 
+    width: auto;
+    color: white;
+    display: flex;
+    background: none;
+    border: none;
+    align-items: center;
+    padding: 10px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+
+#openModal i {
+    margin-right: 10px;
+    font-size: 30px; 
+}
+
+
+#openModal::after {
+    content: "Contato";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10; 
+}
+
+
+#openModal:hover::after {
+    opacity: 1;
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7); 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: red;
+    z-index: 1001;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: #ff5555;
+}
+
+.icon-link {
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.icon-link i {
+    font-size: 40px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.whatsapp-link {
+    color: #25D366;
+}
+
+.whatsapp-link:hover {
+    color: #ffffff;
+    background-color: #25D366;
+}
+
+.icon-link i {
+    font-size: 20px;
+}
+
+
+
+header {
+    position: fixed;
+    width: 90vw;
+    max-width: 1200px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 600px;
+    gap: 10%;
+    padding: 10px 0;
+    z-index: 2;
+}
+
+header img {
+    width: 170px;
+    position: absolute;
+    top: -15px;
+    right: 100px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+header nav {
+    margin-left: 20px; 
+}
+
+header nav ul {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+header nav ul li {
+    list-style: none;
+    transition: color 0.5s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+}
+
+
+header nav ul li a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 30px; 
+    display: flex;
+    align-items: center;
+    
+}
+
+header nav ul li::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -40px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 50px;
+    font-size: 16px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+header nav ul li:hover::after {
+    opacity: 1;
+}
+
+
+section {
+    background: linear-gradient(to bottom, #000000, #000000);
+    height: 100vh;
+    position: relative;
+}
+
+.list {
+    width: 70vw;
+    height: 100%;
+    margin: auto;
+}
+
+.list::before {
+    content: '';
+    position: absolute;
+    height: 100px;
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    border-top: solid 2px #fff;
+}
+
+.item {
+    position: absolute;
+    inset: 0;
+    transform: translateX(100vw);
+    transition: transform 1s ease, opacity 1s ease;
+    opacity: 0;
+}
+
+.item.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.car-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.car-img img {
+    width: 60%;
+    transform: translateX(-200px) rotate(0deg); 
+    transition: transform 1s ease-in-out;
+}
+
+.item.active .car-img img {
+    transform: translateX(0) rotate(-20deg); 
+    transition: transform 1s ease-in-out 0.3s;
+}
+
+.content {
+    position: absolute;
+    right: 10%; 
+    top: 50%;
+    width: 50%;
+    transform: translate(200px, -50%);
+    opacity: 0;
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+.item.active .content {
+    transform: translate(0, -50%);
+    opacity: 1;
+}
+
+.Procurando {
+    font-size: 6.6em;
+    line-height: 1em;
+    font-family: "League Gothic", serif;
+    transition: transform 1s ease-in-out 0.2s;
+    transform: translateX(-10%);
+}
+
+.Itucar {
+    font-size: 6.6em;
+    line-height: 1em;
+    font-family: "League Gothic", serif;
+    transition: transform 1s ease-in-out 0.2s;
+    transform: translateX(10%) translateY(-20%);
+}
+
+.frase {
+    font-size: 3.6em; 
+    line-height: 1em;
+    font-family: "League Gothic", serif;
+    transition: transform 1s ease-in-out 0.2s;
+    transform: translateX(45%) translateY(-20%);
+}
+
+.container-parceria {
+    display: flex;
+    align-items: center;  
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.parceria {
+    font-size: 3.6em; 
+    line-height: 1em;
+    font-family: "League Gothic", serif;
+    transition: transform 1s ease-in-out 0.2s;
+    transform: translateX(35%) translateY(-15%);
+}
+
+.logo_seguro {
+    max-width: 100px;  
+    height: auto;      
+    display: block;    
+    margin: 0 auto;    
+    animation: floating 2s ease-in-out infinite; 
+}
+
+
+@keyframes floating {
+    0% {
+        transform: translateY(0); 
+    }
+    50% {
+        transform: translateY(-10px); 
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+
+.item.active h2 {
+    transform: translateX(45%);
+}
+
+.car-information {
+    color: #cacaca;
+    transform: translateX(-40%);
+    transition: transform 1s ease-in-out 0.3s;
+}
+
+.item.active .car-information {
+    transform: translateX(50%);
+}
+
+.indicators ul li:last-child {
+    background: none;
+    width: auto;
+    height: auto;
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+    border-radius: 0;
+    padding-left: 10px;
+}
+
+.description_um {
+    color: #ffffff;
+    font-size: 12px;
+    text-align: right;
+    max-width: 300px;
+    transform: translateX(120%);
+    transition: transform 1s ease-in-out 0.4s;
+}
+
+.description_dois {
+    color: #cacaca;
+    font-size: 12px;
+    text-align: right;
+    max-width: 300px;
+    transform: translateX(100%);
+    transition: transform 1s ease-in-out 0.4s;
+}
+
+
+.item.active .description {
+    transform: translateX(45%);
+}
+
+.arrows {
+    width: 70vw;
+    position: absolute;
+    transform: translate(-50%, -25px);
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.um:hover {
+    background-color: #ff1b1b;
+}
+
+.dois:hover {
+    background-color: #ff1b1b;
+}
+
+.arrows button img {
+    width: 15px;
+    transition: transform 0.5s ease;
+    margin-top: 4px;
+}
+
+.arrows .um, .arrows .dois {
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    width: 35px;
+    height: 35px;
+}
+
+.arrows .um {
+    transform: scale(-1);
+}
+
+.indicators {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 200px;
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 15px;
+    list-style: none !important;
+}
+
+.indicators .number {
+    font-size: 5em;
+    font-family: "League Gothic", serif;
+}
+
+.indicators ul {
+    display: flex;
+    gap: 10px;
+}
+
+.indicators ul li {
+    width: 50px;
+    height: 5px;
+    background-color: #ff1b1b;
+    border-radius: 5px;
+    transition: 0.7s ease;
+    list-style: none;
+}
+
+.indicators .active {
+    background-color: white;
+}
+
+
+@media (max-width: 480px) {
+
+    html, body {
+        overflow-x: hidden; 
+    }
+
+    .content {
+        padding: 5px;
+        position: absolute;
+        top: 100px; 
+        left: -55px;
+        text-align: left;
+        max-width: 95%;
+        font-size: 10px;
+    }
+
+    .car-link {
+        position: absolute;
+        top: -28px; 
+        left: 50px;
+    }
+
+    header nav ul li:hover::after {
+        content: none;
+    }
+
+    .Itucar {
+        position: absolute;
+        top: 10px; 
+        left: 50px;
+    }
+
+    .parceria {
+        font-size: 30px;
+        white-space: nowrap;
+        position: absolute;
+        top: 70px; 
+        left: 10px;
+    }
+
+    .description_dois {
+        font-size: 10px;
+        position: absolute;
+        top: 100px; 
+        left: 20px;
+    }
+
+    .Procurando {
+        position: absolute;
+        top: 30px; 
+        left: -30px;
+    }
+
+    .frase {
+        font-size: 30px;
+        white-space: nowrap;
+        position: absolute;
+        top: 100px; 
+        left: 10px;
+    }
+
+    .description_um {
+        font-size: 10px;
+        position: absolute;
+        top: 100px; 
+        left: 20px;
+    }
+
+    .logo_seguro {
+        position: absolute;
+        top: 100px; 
+        left: 80px;
+        width: 90px;
+    }
+
+    header img {
+        position: absolute;
+        top: -30px; 
+        left: 230px;
+        width: 120px;
+    }
+
+    .arrows {
+       display: none;
+    }
+
+    #openModal {
+        position: absolute;
+        top: -540px; 
+        left: 20px;
+        bottom: 20px;
+        transform: none;
+        z-index: 100;
+    }
+
+    #openModal::after {
+       content: none;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    html, body {
+        overflow-x: hidden;  
+    }
+
+    .content {
+        padding: 10px;
+        top: 120px;
+        left: -30px;
+        font-size: 12px;
+    }
+
+    .car-link {
+        top: -20px;
+        left: 70px;
+    }
+
+    header nav ul li:hover::after {
+        content: none;
+    }
+
+    .Itucar {
+        top: 20px;
+        left: 70px;
+    }
+
+    .parceria {
+        font-size: 35px;
+        top: 80px;
+        left: 20px;
+    }
+
+    .description_dois {
+        font-size: 12px;
+        top: 120px;
+        left: 30px;
+    }
+
+    .Procurando {
+        top: 40px;
+        left: -20px;
+    }
+
+    .frase {
+        font-size: 35px;
+        top: 120px;
+        left: 20px;
+    }
+
+    .description_um {
+        font-size: 12px;
+        top: 140px;
+        left: 30px;
+    }
+
+    .logo_seguro {
+        top: 130px;
+        left: 90px;
+        width: 100px;
+    }
+
+    header img {
+        top: -25px;
+        left: 180px;
+        width: 140px;
+    }
+
+    .arrows {
+        width: 350px;
+    }
+
+    .um {
+        width: 450px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    html, body {
+        overflow-x: hidden;  
+    }
+    
+    .content {
+        padding: 2vw;
+        top: 12vh;
+        left: 5vw;
+        font-size: 1.2rem;
+        position: absolute;
+        max-width: 90%;
+    }
+
+    .car-link {
+        top: 3vh;
+        left: 270px;
+        position: absolute;
+
+    }
+
+    header nav ul li:hover::after {
+        content: none;
+    }
+
+    .Itucar {
+        top: 5vh;
+        left: 10vw;
+        position: absolute;
+    }
+
+    .parceria {
+        font-size: 2.5rem;
+        top: 14vh;
+        left: 110px;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+    .description_dois {
+        font-size: 1rem;
+        top: 17vh;
+        left: 5px;
+        position: absolute;
+    }
+
+    .Procurando {
+        top: 8vh;
+        left: 3vw;
+        position: absolute;
+    }
+
+    .frase {
+        font-size: 60px;
+        top: 16vh;
+        left: 100px;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+    .description_um {
+        font-size: 1rem;
+        top: 21vh;
+        left: 5vw;
+        position: absolute;
+    }
+
+    .logo_seguro {
+        top: 17vh;
+        left: 20vw;
+        width: 20vw;
+        position: absolute;
+    }
+
+    header img {
+        top: 2vh;
+        left: 55vw;
+        width: 20vw;
+        position: absolute;
+    }
+
+
+    .arrows {
+        display: none;
+      }
+      
+      .list {
+        touch-action: pan-y; 
+        overflow-x: scroll; 
+        display: flex;
+      }
+
+   #openModal{
+    position: absolute;
+    top: 500px;
+   }
+
+   #openModal::after{
+   content: none;
+   }
+}
+
+@media (max-width: 740px) {
+    .car-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .car-img img {
+        width: 80%;
+        max-width: 300px;
+        transform: none;
+        transition: transform 1s ease-in-out;
+    }
+}
+
+
+

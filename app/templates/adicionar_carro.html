@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Novo Carro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adicionar_carro.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header class="side-header">
+        <a href="{{ url_for('main.carros_disponiveis') }}" class="nav-link" title="Voltar para lista">
+            <i class="fas fa-arrow-left">Voltar</i>
+        </a>
+        <a href="{{ url_for('main.home') }}" class="nav-link" title="Página inicial">
+            <i class="fas fa-home">Home</i>
+        </a>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="painel-container">
+            <!-- Formulário de Cadastro -->
+            <form method="POST" enctype="multipart/form-data" class="car-form">
+                <div class="form-section">
+                    <h2><i class="fas fa-car-side"></i> Informações Básicas</h2>
+                    
+                    <div class="input-group">
+                        <input type="text" name="marca" id="marca" required maxlength="50">
+                        <label for="marca">Marca</label>
+                    </div>
+
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <input type="text" name="nome" id="nome" required maxlength="100">
+                            <label for="nome">Nome</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" name="valor" id="valor" required 
+                                   oninput="formatarNumero(this)">
+                            <label for="valor">Valor</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-info-circle"></i> Detalhes</h2>
+                    
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <input type="text" name="modelo" id="modelo" required maxlength="50">
+                            <label for="modelo">Modelo</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="ano" id="ano" 
+                                   min="1900" max="{{ current_year }}" 
+                                   required>
+                            <label for="ano">Ano</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" name="cor" id="cor" required maxlength="30">
+                            <label for="cor">Cor</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width">
+                        <textarea name="descricao" id="descricao" 
+                                  rows="3" required maxlength="200"></textarea>
+                        <label for="descricao">Descrição</label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-camera"></i> Imagens do Veículo</h2>
+                    
+                    <div class="upload-container">
+                        <label class="upload-label" for="imagens"
+                               ondragover="handleDragOver(event)"
+                               ondragleave="handleDragLeave(event)"
+                               ondrop="handleDrop(event)">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt">Clique aqui!</i>
+                            </div>
+                            <input type="file" name="imagens" id="imagens" 
+                                   accept="image/png, image/jpeg, image/webp" 
+                                   multiple required hidden
+                                   onchange="previewFiles()">
+                        </label>
+                        <div class="file-preview" id="file-preview"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Cadastrar Veículo
+                </button>
+            </form>
+
+            <!-- Lista de Carros com opção de excluir -->
+            <section class="car-list">
+                <h2>Veículos Cadastrados</h2>
+                <ul>
+                    {% for item in lista_carros %}
+                        <li>
+                            {{ item.descricao }}
+                            {% if item.quantidade > 1 %} {{ item.quantidade }}x {% endif %}
+                            {% set found = false %}
+                            {% for carro in carros %}
+                                {% if not found and carro.nome ~ ' - ' ~ carro.cor == item.descricao %}
+                                    <form action="{{ url_for('main.excluir_carro', id=carro.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" onclick="return confirm('Deseja excluir este carro?')" class="btn-excluir">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    {% set found = true %}
+                                {% endif %}
+                            {% endfor %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/adicionar_carro.js') }}"></script>
+</body>
+</html>

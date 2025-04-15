@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Noto+Sans+Elbasan&family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Car Selector</title>
+</head>
+<body>
+    <ul>
+        <li data-tooltip="Contato">
+        <button type="button" id="openModal">
+            <i class="fa-solid fa-mobile-button"></i>
+        </button>
+    </li>
+    </ul>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <h2>Entre em contato</h2>
+            <form id="contact-form">
+                
+                <a href="https://wa.me/5534996958490" target="_blank" class="icon-link whatsapp-link">
+                    <i class="fab fa-whatsapp"></i> Vando
+                </a>
+                
+                <a href="https://wa.me/5534996582618" target="_blank" class="icon-link whatsapp-link">
+                    <i class="fab fa-whatsapp"></i> Puera
+                </a>
+                
+                <a href="https://wa.me/5534998771166" target="_blank" class="icon-link whatsapp-link">
+                    <i class="fab fa-whatsapp"></i> Fernando
+                </a>
+                
+                   
+            </form>
+        </div>
+    </div>
+
+    <header>
+        <img src="{{ url_for('static', filename='img/aja.png') }}" alt="Logo da empresa">
+        <nav>
+            <ul>
+                <li data-tooltip="Carros">
+                    <a class="car-link" href="{{ url_for('main.carros_disponiveis') }}">
+                        <i class="fas fa-car"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="list">
+            <div class="item active">
+                <div class="car-img">
+                    <img src="{{ url_for('static', filename='img/sonata.png') }}" alt="Ferrari Vermelha">
+                </div>
+                <div class="content">
+                    <h2 class="Procurando">Procurando</h2>
+                    <h3 class="frase">um carro novo?</h3>
+                    <p class="description_um">Veio ao lugar certo! Aqui na A.J.A veículos você encontra seu veículo ideal, entre em contato conosco ou arraste para o lado para mais opções.</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="car-img">
+                    <img src="{{ url_for('static', filename='img/golf.png') }}" alt="Porsche 911 Cinza">
+                </div>
+                <div class="content">
+                    <h2 class="Itucar">Itucar</h2>
+                    <h3 class="parceria">Clube de benefícios</h3>
+                    <p class="description_dois">Proteção completa para o seu veículo, garantindo segurança e tranquilidade em cada viagem.</p>
+                    <img class="logo_seguro" src="{{ url_for('static', filename='img/itucar.png') }}" alt="Itucar">
+                </div>
+            </div>
+        </div>
+
+        <div class="arrows">
+            <button class="um" id="prev"><img src="{{ url_for('static', filename='img/arrow.png') }}" alt="Seta para esquerda"></button>
+            <button class="dois" id="next"><img src="{{ url_for('static', filename='img/arrow.png') }}" alt="Seta para direita"></button>
+        </div>
+
+        <div class="indicators">
+            <div class="number">01</div>
+            <ul>
+                <li class="active"></li>
+                <li>Deslize para o lado</li>
+            </ul>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
