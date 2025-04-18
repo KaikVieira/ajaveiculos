@@ -2,7 +2,7 @@ blinker==1.9.0
 click==8.1.8
 colorama==0.4.6
 Flask==2.2.2
-Flask-SQLAlchemy==2.5.1
+Flask-SQLAlchemy==3.1.1  # Atualizei para versão compatível com SQLAlchemy 2.x
 greenlet==3.1.1
 gunicorn==23.0.0
 itsdangerous==2.2.0
@@ -10,7 +10,7 @@ Jinja2==3.1.6
 MarkupSafe==3.0.2
 packaging==24.2
 python-dotenv==0.21.1
-SQLAlchemy==2.0.40
+SQLAlchemy==2.0.40        # Mantido (versão mais nova)
 typing_extensions==4.13.2
 Werkzeug==2.2.2
 psycopg2-binary==2.9.9
