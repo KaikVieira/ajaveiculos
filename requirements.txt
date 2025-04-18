@@ -10,9 +10,10 @@ Jinja2==3.1.6
 MarkupSafe==3.0.2
 packaging==24.2
 python-dotenv==0.21.1
-SQLAlchemy==2.0.40       
+SQLAlchemy==2.0.25
 typing_extensions==4.13.2
 Werkzeug==2.2.2
 psycopg2-binary==2.9.9
 cloudinary==1.30.0
+
 
