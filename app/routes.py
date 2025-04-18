@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from app import db
 from app.models import Carro, ImagemCarro
 from werkzeug.utils import secure_filename
+import cloudinary.uploader
 
 main = Blueprint('main', __name__)
 
@@ -57,7 +58,6 @@ def adicionar_carro():
             return redirect(url_for('main.adicionar_carro'))
 
         imagens = request.files.getlist('imagens')
-        upload_folder = current_app.config['UPLOAD_FOLDER']
 
         if not imagens or all(imagem.filename == '' for imagem in imagens):
             flash("Nenhuma imagem selecionada!", "danger")
@@ -83,9 +83,10 @@ def adicionar_carro():
             for imagem in imagens:
                 if imagem and allowed_file(imagem.filename):
                     filename = secure_filename(imagem.filename)
-                    filepath = os.path.join(upload_folder, filename)
-                    os.makedirs(upload_folder, exist_ok=True)
+                    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                    os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
                     imagem.save(filepath)
+
                     imagem_carro = ImagemCarro(
                         url_imagem=filename,
                         carro_id=novo_carro.id
@@ -159,3 +160,4 @@ def excluir_carro(id):
         flash("Carro não encontrado!", "danger")
 
     return redirect(url_for('main.adicionar_carro'))
+
