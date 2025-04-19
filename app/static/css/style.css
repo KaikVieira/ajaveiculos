@@ -20,7 +20,7 @@ body {
     left: 50%;
     transform: translate(-600%, -800%); 
     width: auto;
-    color: white;
+    color: red;
     display: flex;
     background: none;
     border: none;
@@ -188,7 +188,7 @@ header nav ul li {
 
 
 header nav ul li a {
-    color: inherit;
+    color: red;
     text-decoration: none;
     font-size: 30px; 
     display: flex;
