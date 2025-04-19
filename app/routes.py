@@ -2,22 +2,25 @@ import os
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, session
 from app import db
 from app.models import Carro, ImagemCarro
-from werkzeug.utils import secure_filename
 import cloudinary.uploader
 
 main = Blueprint('main', __name__)
 
 USUARIO_CORRETO = os.getenv('USUARIO_ADMIN')
 SENHA_CORRETA = os.getenv('SENHA_ADMIN')
-TOKEN_ACESSO = os.getenv('TOKEN_ACESSO', 'acesso123') 
+TOKEN_ACESSO = os.getenv('TOKEN_ACESSO', 'acesso123')
+
+cloudinary.config(
+    cloud_name="kaikgarage",
+    api_key="977435629795153",
+    api_secret="eBwokPHQ9uz__XPUlVMTH5fwP1s"
+)
 
 def allowed_file(filename):
-    """Verifica se o arquivo tem uma extensão permitida."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
 @main.route('/admin-entrada-secreta', methods=['GET', 'POST'])
 def login():
-    """Rota de login do administrador."""
     acesso = request.args.get('acesso')
 
     if request.method == 'GET' and acesso != TOKEN_ACESSO:
@@ -38,7 +41,6 @@ def login():
 
 @main.route('/adicionar-carro', methods=['GET', 'POST'])
 def adicionar_carro():
-    """Rota para adicionar novos carros."""
     if 'usuario' not in session:
         return redirect(url_for('main.login', acesso=TOKEN_ACESSO))
 
@@ -77,18 +79,16 @@ def adicionar_carro():
             modelo=modelo
         )
         db.session.add(novo_carro)
-        db.session.flush()
+        db.session.flush()  # pega o ID do carro antes de commitar
 
         try:
             for imagem in imagens:
                 if imagem and allowed_file(imagem.filename):
-                    filename = secure_filename(imagem.filename)
-                    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-                    os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
-                    imagem.save(filepath)
+                    upload_result = cloudinary.uploader.upload(imagem)
+                    url_imagem = upload_result['secure_url']
 
                     imagem_carro = ImagemCarro(
-                        url_imagem=filename,
+                        url_imagem=url_imagem,
                         carro_id=novo_carro.id
                     )
                     db.session.add(imagem_carro)
@@ -99,7 +99,7 @@ def adicionar_carro():
 
         except Exception as e:
             db.session.rollback()
-            flash(f"Erro ao salvar arquivos: {str(e)}", "danger")
+            flash(f"Erro ao salvar imagens: {str(e)}", "danger")
             return redirect(url_for('main.adicionar_carro'))
 
     carros = Carro.query.all()
@@ -117,37 +117,29 @@ def adicionar_carro():
 
 @main.route('/logout')
 def logout():
-    """Rota de logout do administrador."""
     session.pop('usuario', None)
     return redirect(url_for('main.login', acesso=TOKEN_ACESSO))
 
 @main.route('/')
 def home():
-    """Página inicial com os carros cadastrados."""
     carros = Carro.query.all()
     imagens = [imagem.url_imagem for carro in carros for imagem in carro.imagens]
     return render_template('index.html', imagens=imagens)
 
 @main.route('/carros')
 def carros_disponiveis():
-    """Exibe os carros disponíveis para venda."""
     carros = Carro.query.all()
     return render_template('carros.html', carros=carros)
 
 @main.route('/excluir_carro/<int:id>', methods=['POST'])
 def excluir_carro(id):
-    """Exclui um carro do banco de dados e suas imagens."""
     if 'usuario' not in session:
         return redirect(url_for('main.login', acesso=TOKEN_ACESSO))
 
     carro = Carro.query.get(id)
     if carro:
         try:
-            upload_folder = current_app.config['UPLOAD_FOLDER']
             for imagem in carro.imagens:
-                filepath = os.path.join(upload_folder, imagem.url_imagem)
-                if os.path.exists(filepath):
-                    os.remove(filepath)
                 db.session.delete(imagem)
 
             db.session.delete(carro)
@@ -160,4 +152,6 @@ def excluir_carro(id):
         flash("Carro não encontrado!", "danger")
 
     return redirect(url_for('main.adicionar_carro'))
+
+      
 
