@@ -108,33 +108,10 @@
                     <i class="fas fa-save"></i> Cadastrar Veículo
                 </button>
             </form>
-
-            <!-- Lista de Carros com opção de excluir -->
-            <section class="car-list">
-                <h2>Veículos Cadastrados</h2>
-                <ul>
-                    {% for item in lista_carros %}
-                        <li>
-                            {{ item.descricao }}
-                            {% if item.quantidade > 1 %} {{ item.quantidade }}x {% endif %}
-                            {% set found = false %}
-                            {% for carro in carros %}
-                                {% if not found and carro.nome ~ ' - ' ~ carro.cor == item.descricao %}
-                                    <form action="{{ url_for('main.excluir_carro', id=carro.id) }}" method="POST" style="display:inline;">
-                                        <button type="submit" onclick="return confirm('Deseja excluir este carro?')" class="btn-excluir">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                    {% set found = true %}
-                                {% endif %}
-                            {% endfor %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
         </div>
     </main>
 
     <script src="{{ url_for('static', filename='js/adicionar_carro.js') }}"></script>
 </body>
 </html>
+
