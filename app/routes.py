@@ -11,10 +11,12 @@ SENHA_CORRETA = os.getenv('SENHA_ADMIN')
 TOKEN_ACESSO = os.getenv('TOKEN_ACESSO', 'acesso123')
 
 cloudinary.config(
-    cloud_name="kaikgarage",
-    api_key="977435629795153",
-    api_secret="eBwokPHQ9uz__XPUlVMTH5fwP1s"
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True
 )
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
