@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -39,7 +38,8 @@
             <div class="swiper-wrapper">
                 {% for imagem in carro.imagens %}
                 <div class="swiper-slide">
-                    <img src="{{ url_for('static', filename='uploads/' + imagem.url_imagem) }}" alt="{{ carro.nome }}">
+                    <!-- Aqui está o ajuste para a URL do Cloudinary -->
+                    <img src="{{ imagem.url_imagem }}" alt="{{ carro.nome }}">
                 </div>
                 {% endfor %}
             </div>
@@ -83,7 +83,25 @@
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
+    document.querySelectorAll('.swiper-container').forEach(container => {
+        new Swiper(container, {
+            loop: true,
+            navigation: {
+                nextEl: container.querySelector('.swiper-button-next'),
+                prevEl: container.querySelector('.swiper-button-prev'),
+            },
+            pagination: {
+                el: container.querySelector('.swiper-pagination'),
+                clickable: true,
+            }
+        });
+    });
 
+    function toggleDetalhes(button) {
+        const detalhes = button.closest('.carro-card').querySelector('.carro-detalhes');
+        detalhes.classList.toggle('ativo');
+        button.classList.toggle('ativo');
+    }
 </script>
 <script src="{{ url_for('static', filename='js/carro.js') }}"></script>
 </body>
